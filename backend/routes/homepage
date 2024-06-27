@@ -1,0 +1,23 @@
+const express = require('express');
+
+
+const router = express.Router()
+
+// start routing function
+
+// GET all finances
+router.get('/', )
+
+// GET single finance
+router.get('/:id', )
+
+// DELETE
+router.delete('/:id', )
+
+// POST
+router.post('/', )
+
+// UPDATE (can use patch or put depending on circumstance)
+router.patch('/:id', )
+
+module.exports = router
