@@ -1,15 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const { Client } = require('pg');
-
-const client = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'TestDB',
-    password: '7780mnw&p', // password for user
-    port: 5432, 
-});
+const { login } = require('./controllers/financeControllers')
+const cors = require('cors');
+const client = require('./pgClient')
 
 const PORT = process.env.PORT || 3500;
 
@@ -18,6 +12,7 @@ const app = express();
 
 // middleware
 app.use(express.json());
+app.use(cors());
 
 // configure session
 app.use(session({
@@ -28,19 +23,28 @@ app.use(session({
 }));
 
 // routing
-app.get('/', (req, res) => {
-    res.send('Hello World')
-})
-
-app.get('/data', async (req, res) => {
+app.get('/', async (req, res) => {
+  console.log("here")
   try {
-    const result = await client.query('SELECT * FROM accounts')
-    res.status(200).json(result.rows)
+      const result = await client.query(`SELECT usern, pass 
+                                          FROM accounts 
+                                          WHERE accounts.usern = 'Alice1'
+                                          AND accounts.pass = 'password1'`
+                                        );
+      if(result.rows.length > 0){
+          res.status(200).json(result)
+      } else {
+          res.status(404).json('User not found')
+      }
   } catch (error) {
-    console.error('Error executing query', error);
-    res.status(500).send('Server error');
+      console.error('Error executing query', error);
+      res.status(500).send('Server error');
   }
 });
+
+app.post('/login', login);
+
+// app.get('/register', register)
 
 client.connect()
 .then(() => {

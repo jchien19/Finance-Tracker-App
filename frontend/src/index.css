@@ -1,13 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap'); */
+
+:root {
+  --success: #1aac83;
+  --error: #e7195a;
+}
 body {
+  background: #d3d3d3;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Poppins";
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+.main-container{
+  padding-block: 48px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* login form css */
+label, input {
+  display: block;
+}
+
+input {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+form button {
+  border: 0;
+  color: #fff;
+  padding: 5px;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
+}
+div.error {
+  padding: 1px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+div.Login{
+  border: solid;
+  margin: 10px;
+  font-family: "Poppins";
+  box-shadow: 0px 3px 6px rgba(255, 153, 51, 0.16);
+}
+div.success {
+  padding: 1px;
+  background: #e8fcf3;
+  border: 1px solid var(--success);
+  color: var(--success);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.sessionButton {
+  box-sizing: border-box;
+  background: #ac88ff;
+  color:black;
+  border: 1px solid #ac88ff;
+  box-shadow: 0px 3px 6px rgba(255, 153, 51, 0.16);
+  border-radius: 6px;
+  font-size: 16px;
 }
