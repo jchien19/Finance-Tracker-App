@@ -6,7 +6,7 @@ const Navbar = () => {
     <div className='bg-white p-3 flex'>
         <h1 className='text-5xl text-purple-800 font-bold'>Website</h1>
         <div className='flex absolute left-1/2 transform -translate-x-1/2 gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-gray-300'>
-            <Link className='top-1/2' to='/'>
+            <Link className='top-1/2' to='/home'>
                 <p>Home</p>
             </Link>
             <div className='border border-l border-gray-300'></div>

@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const { login } = require('./controllers/financeControllers')
+const bodyParser = require('body-parser');
+const { login, register } = require('./controllers/financeControllers')
 const cors = require('cors');
 const client = require('./pgClient')
 
@@ -12,6 +13,7 @@ const app = express();
 
 // middleware
 app.use(express.json());
+app.use(bodyParser.json())
 app.use(cors());
 
 // configure session
@@ -24,27 +26,16 @@ app.use(session({
 
 // routing
 app.get('/', async (req, res) => {
-  console.log("here")
-  try {
-      const result = await client.query(`SELECT usern, pass 
-                                          FROM accounts 
-                                          WHERE accounts.usern = 'Alice1'
-                                          AND accounts.pass = 'password1'`
-                                        );
-      if(result.rows.length > 0){
-          res.status(200).json(result)
-      } else {
-          res.status(404).json('User not found')
-      }
-  } catch (error) {
-      console.error('Error executing query', error);
-      res.status(500).send('Server error');
-  }
+  // const id = uuidv4();
+  // res.json(id)
+  const date = new Date()
+  const dateFormat = date.getMonth() + "-" + date.getDate() + "-" + date.getFullYear()
+  res.json(dateFormat)
 });
 
 app.post('/login', login);
 
-// app.get('/register', register)
+app.post('/register', register)
 
 client.connect()
 .then(() => {

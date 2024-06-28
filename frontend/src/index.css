@@ -50,7 +50,7 @@ div.error {
   padding: 1px;
   background: #ffefef;
   border: 1px solid var(--error);
-  color: var(--error);
+  /* color: var(--error); */
   border-radius: 4px;
   margin: 20px 0;
 }
@@ -65,7 +65,7 @@ div.success {
   padding: 1px;
   background: #e8fcf3;
   border: 1px solid var(--success);
-  color: var(--success);
+  /* color: var(--success); */
   border-radius: 4px;
   margin: 20px 0;
 }

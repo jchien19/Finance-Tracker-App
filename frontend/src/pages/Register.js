@@ -9,23 +9,20 @@ const Register = () => {
     const[success, setSuccess] = useState('');
 
     const handleSubmit = async (e) => {
-        // post request to backend api route
-        // onSubmit={handleSubmit}
+        // post request to backend api route for registering new users
         e.preventDefault();
 
         try {
           // console.log("user: ", user)
           // console.log("pass: ", pass)
             const response = await axios.post('http://localhost:4000/register', { user, pass });
-        if (response.status === 200) {
-          setSuccess('Login successful')
+        if (response.status === 201) {
+          setSuccess('Register successful')
           setError('')
         }
         } catch (error) {
-        if (error.response && error.response.status === 404) {
+        if (error.response && error.response.status === 500) {
           setSuccess('')
-          setError('Invalid username or password');
-        } else {
           setError('An error occurred. Please try again.');
         }
       }
@@ -57,8 +54,8 @@ const Register = () => {
               />
               <button className="sessionButton rounded w-3/4">Register</button>
           </form>
-          {error && <div className = 'error'>{error}</div>}
-          {success && <div className = 'success'>{success}</div>}
+          {error && <div className = 'error text-red-500'>{error}</div>}
+          {success && <div className = 'success text-green-500'>{success}</div>}
         </div>
     )
 }
