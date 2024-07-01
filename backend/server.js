@@ -33,6 +33,11 @@ app.get('/', async (req, res) => {
   res.json(dateFormat)
 });
 
+app.get('/session', async (req, res) => {
+  console.log(req.session.userID)
+  res.json(req.session.userID);
+})
+
 app.post('/login', login);
 
 app.post('/register', register)

@@ -1,3 +1,4 @@
+import HomePage from '../components/HomePage'
 
 const Home = () => {
 
@@ -12,7 +13,7 @@ const Home = () => {
     } else {
         return (
             <div className = "home">
-                <h2>Home 2</h2>
+                <HomePage />
             </div>
         )
     }

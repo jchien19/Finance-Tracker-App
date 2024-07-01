@@ -17,13 +17,17 @@ const Register = () => {
           // console.log("pass: ", pass)
             const response = await axios.post('http://localhost:4000/register', { user, pass });
         if (response.status === 201) {
-          setSuccess('Register successful')
-          setError('')
+          setSuccess('Register successful');
+          setError('');
         }
+
         } catch (error) {
         if (error.response && error.response.status === 500) {
           setSuccess('')
           setError('An error occurred. Please try again.');
+        } else if (error.response && error.response.status === 400){
+          setError('Username is already taken');
+          setSuccess('');
         }
       }
     }
