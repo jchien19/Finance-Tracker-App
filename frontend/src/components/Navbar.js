@@ -10,11 +10,11 @@ const Navbar = () => {
                 <p>Home</p>
             </Link>
             <div className='border border-l border-gray-300'></div>
-            <Link className='top-1/2' to='/register'>
+            <Link className='top-1/2' to='/'>
                 <p>Account</p>
             </Link>
             <div className='border border-l border-gray-300'></div>
-            <Link className='top-1/2' to='/'>
+            <Link className='top-1/2' to='/register'>
                 <p>About</p>
             </Link>
         </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useAuthContext } from "../hooks/useAuthContext"
 
 const Login = () => {
 
@@ -7,6 +8,7 @@ const Login = () => {
     const[pass, setPass] = useState('');
     const[error, setError] = useState('');
     const[success, setSuccess] = useState('');
+    const { usern, dispatch } = useAuthContext();
 
     const handleSubmit = async (e) => {
         // post request to backend api route
@@ -18,6 +20,8 @@ const Login = () => {
           // console.log("pass: ", pass)
             const response = await axios.post('http://localhost:4000/login', { user, pass });
         if (response.status === 200) {
+          console.log(response.data)
+          dispatch({type: 'LOGIN', payload: response.data.user})
           setSuccess('Login successful')
           setError('')
         }
