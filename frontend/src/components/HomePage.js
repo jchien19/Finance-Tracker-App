@@ -3,12 +3,18 @@ import { useAuthContext } from "../hooks/useAuthContext"
 import axios from 'axios';
 import TransactionDisplay from './TransactionDisplay';
 import GraphDisplay from './GraphDisplay';
+import TransactionForm from './TransactionForm';
 
 const HomePage = () => {
 
     const { usern } = useAuthContext();
     const[transactions, setTransactions] = useState('');
     const[expenses, setExpenses] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
+
+    const togglePopup = () => {
+      setShowPopup(!showPopup);
+    };
     
     const handleClick = async (e) => {
         e.preventDefault()
@@ -32,11 +38,6 @@ const HomePage = () => {
                     response.data[i].total_amount_spent = (Number(response.data[i].total_amount_spent) * -1).toString()
                 }
             }
-            // response.data[0].total_amount_spent = (Number(response.data[0].total_amount_spent) * -1).toString()
-            // response.data[1].total_amount_spent = (Number(response.data[1].total_amount_spent) * -1).toString()
-            // response.data[2].total_amount_spent = (Number(response.data[2].total_amount_spent) * -1).toString()
-            // response.data[3].total_amount_spent = (Number(response.data[3].total_amount_spent) * -1).toString()
-            // response.data[4].total_amount_spent = (Number(response.data[4].total_amount_spent) * -1).toString()
             console.log(response.data)
             setExpenses(response.data)
         } catch (error){
@@ -48,21 +49,34 @@ const HomePage = () => {
         <div>
             <div className="flex space-x-4 p-8">
                 <div className="bg-white p-8 shadow-lg rounded-lg w-3/5 h-2/3">
-                    <div className='flex relative absolute'>
-                        <h3 className='text-1xl'>Transactions</h3>
-                        <div className=' bg-gray-200 rounded p-1 justify-end'>
+                    <div className='flex relative absolute p-3'>
+                        <h3 className='text-1xl font-bold'>Transactions</h3>
+                        <div className='flex absolute right-0 transform gap-2 border border-gray-300 bg-gray-100 rounded-full px-2 shadow-gray-300'>
+                            <button onClick={togglePopup}>
+                                            Add New Expense
+                            </button>
+                        <div className='border border-l border-gray-300'></div>
                             <button onClick={handleClick}>refresh</button>
                         </div>
                     </div>
+
+    {/* Start of form */}
+    {/* <div className="relative"> */}
+      {showPopup && <TransactionForm ToggleFunction = {togglePopup}/>}
+    {/* </div> */}
+    {/* end of form */}
+
                     {transactions && transactions.map(transaction => (
                         <TransactionDisplay trans={transaction}/>
                     ))}
                     
                 </div>
                 <div className="bg-white p-8 shadow-lg rounded-lg w-2/5 h-2/3">
-                    <h3 className='text-1xl'>Expenses Graphs</h3>
-                    <div className=' bg-gray-200 rounded p-1 justify-end'>
-                        <button onClick={handleExpense}>refresh</button>
+                    <div className='flex relative absolute p-2'>
+                        <h3 className='text-1xl font-bold'>Expenses Graph</h3>
+                        <div className='absolute right-0 bg-gray-100 border border-gray-300 gap-2 rounded-full px-2'>
+                            <button onClick={handleExpense}>refresh</button>
+                        </div>
                     </div>
                     {expenses && <GraphDisplay expense = {expenses}/>}
                 </div>

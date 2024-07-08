@@ -7,7 +7,8 @@ module.exports = {
     "./src/components/Navbar.js",
     "./src/components/HomePage.js",
     "./src/components/TransactionDisplay.js",
-    "./src/components/GraphDisplay.js"
+    "./src/components/GraphDisplay.js",
+    "./src/components/TransactionForm.js"
   ],
   theme: {
     fontFamily: {

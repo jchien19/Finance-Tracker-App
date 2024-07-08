@@ -2,7 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const { login, register, test, getLedger, getExpenses } = require('./controllers/financeControllers')
+const { login, register, test, getLedger, getExpenses, 
+        newTransaction, deleteTransaction } = require('./controllers/financeControllers')
 const cors = require('cors');
 const client = require('./pgClient')
 
@@ -53,6 +54,10 @@ app.get('/getExpenses', getExpenses);
 app.post('/login', login);
 
 app.post('/register', register)
+
+app.post('/newTransaction', newTransaction)
+
+app.delete('/deleteTransaction/:id', deleteTransaction)
 
 app.get('/getTest', test)
 

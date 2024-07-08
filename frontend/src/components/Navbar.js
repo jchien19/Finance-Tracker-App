@@ -24,7 +24,7 @@ const Navbar = () => {
             </Link>
         </div> */}
         <div className='absolute right-5 border border-gray-300 gap-2 rounded-full py-1 px-2'>
-        <   Link to='/'>
+            <Link to='/'>
                 <p className='material-symbols-outlined'>account_circle</p>
             </Link>
         </div>

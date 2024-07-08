@@ -14,14 +14,14 @@ const createJWT = (id) => {
 const getLedger = async (req, res) => {
   try {
     const result = await client.query(`
-          SELECT ledger.amount, ledger.trans_date, ledger.expense, category.category, ledger.desc
+          SELECT ledger.id, ledger.amount, ledger.trans_date, ledger.expense, category.category, ledger.desc
           FROM ledger
           JOIN category
           ON ledger.category_id = category.id 
           ORDER BY trans_date DESC;
     `)
     // AND ledger.account_id = 'd1c1e475-52bb-4699-9f59-30cfcf8e953e' // should go before ORDER BY
-    console.log(result.rows)
+    // console.log(result.rows)
     res.status(200).json(result.rows)
   } catch (error) {
     console.log('error getting ledger info: ', error)
@@ -158,7 +158,51 @@ const test = async (req, res) => {
   }
 }
 
+const newTransaction = async (req, res) => {
+  try {
+    const { account_id, amount, title, category, date } = req.body
+    console.log('date: ', category);
+    let expense = true;
+    let multiplier = -1;
+    if(category == 6){ expense = false; multiplier = -1*multiplier; }; 
+    const result = await client.query(`INSERT INTO public.ledger (account_id, amount, trans_date, "desc", category_id, expense)
+    VALUES ('${account_id}', ${multiplier*amount}, '${date}', '${title}', ${category},${expense})
+    `)
+    .catch((error) => {
+      console.log('Error with query: ', error);
+      res.status(400).json(error);
+      return;
+    })
+    console.log('inputted transaction result: ', result);
+    res.status(200).json(result)
+  } catch (error) {
+    console.log('Error posting new transaction: ', error);
+    res.status(400).json(error);
+  }
+}
+
 // DELETE
+
+const deleteTransaction = async (req, res) => {
+  try {
+    // const { id } = req.body
+    // console.log('delete id: ', id)
+    console.log('delete req headers: ', req.params.id)
+    const result = await client.query(`DELETE FROM ledger
+      WHERE id = ${req.params.id}
+      `).catch((error) => {
+        console.log('error deleting from ledger: ', error);
+        res.status(400).json(error);
+        return;
+      });
+      console.log('Successfully deleted transaction');
+      res.status(200).json(result);
+    // res.status(200).json('ok');
+  } catch(error) {
+    console.log('Error deleting transaction: ', error);
+    res.status(400).json(error);
+  }
+}
 
 // UPDATE
 
@@ -167,5 +211,7 @@ module.exports = {
     register,
     test,
     getLedger,
-    getExpenses
+    getExpenses,
+    newTransaction,
+    deleteTransaction
 };

@@ -3,7 +3,7 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, PieChart
 // import { RadarChartDisplay, PieChartDisplay } from './ChartComponents';
 
 let data = [
-    { name: 'Rent/Utilities', expense: 10 },
+    { name: 'Rent/Utilities', expense: 0 },
     { name: 'Healthcare', expense: 0 },
     { name: 'Food', expense: 0 },
     { name: 'Leisure', expense: 0 },
@@ -13,7 +13,7 @@ let data = [
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FFBCF4'];
 
 const RadarChartDisplay = () => (
-    <RadarChart outerRadius={150} width={500} height={500} data={data}>
+    <RadarChart outerRadius={150} width={475} height={500} data={data}>
         <PolarGrid />
         <PolarAngleAxis dataKey="name" />
         <PolarRadiusAxis />
@@ -25,7 +25,7 @@ const RadarChartDisplay = () => (
 
 
 const PieChartDisplay = () => (
-    <PieChart width={500} height={500}>
+    <PieChart width={475} height={500}>
         <Pie
         data={data}
         dataKey="expense"
@@ -47,7 +47,9 @@ const PieChartDisplay = () => (
 
 const updateData = (expenses) => {
     const amount_data = expenses.expense
-    console.log('expesnes n update ', amount_data)
+    // for(let j = 0; j < 6; j ++){
+    //   data[0].expense = 0;
+    // };
     for (let i = 0; i < amount_data.length; i ++){
         let cur = amount_data[i]
         if(cur.category_id === 1){
@@ -71,10 +73,26 @@ const ChartSwitcher = ( expenses ) => {
   updateData(expenses)
   return (
     <div>
-      <div>
-        {/* <button onClick={updateData}>update</button> */}
-        <button onClick={() => setChartType('pie')}>Pie Chart</button>
-        <button onClick={() => setChartType('radar')}>Radar Chart</button>
+      <div className='flex absolute relative'>
+
+        <div className='bg-gray-100 border border-gray-300 gap-2 px-2 rounded-full mr-1'>
+            <button onClick={() => setChartType('pie')}>Pie</button>
+        </div>
+        <div className='bg-gray-100 border border-gray-300 gap-2 px-2 rounded-full'>
+            <button onClick={() => setChartType('radar')}>Radar</button>
+        </div>
+
+
+{/* <form class="max-w-sm mx-auto">
+  <label for="countries_disabled" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+  <select id="countries_disabled" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    <option selected>Choose a graph</option>
+    <option value="Pie">Pie</option>
+    <option value="Radar">Radar</option>
+  </select>
+</form> */}
+
+
       </div>
       <div>
         {/* {chartType === 'line' && <LineChartDisplay />} */}

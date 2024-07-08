@@ -1,5 +1,19 @@
+import axios from 'axios';
 
 const TransactionDisplay = ({ trans }) => {
+
+    const id = trans.id;
+
+    const handleDelete = async (e) => {
+        e.preventDefault();
+        try {
+            console.log('frontend delete id: ', trans.id)
+            const response = await axios.delete('http://localhost:4000/deleteTransaction/' + id.toString());
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     if(!trans.expense){
         return (
@@ -12,7 +26,9 @@ const TransactionDisplay = ({ trans }) => {
                     <div className="w-1/4 bg-green-100 text-center rounded-lg p-4">
                         <p className='font-semibold'>{trans.amount}</p>
                     </div>
+                    <span className="material-symbols-outlined py-4" onClick={handleDelete}>delete</span>
                 </div>
+                
             </div>
         )
     } else {
@@ -26,6 +42,7 @@ const TransactionDisplay = ({ trans }) => {
                     <div className="w-1/4 bg-red-100 text-center rounded-lg p-4">
                         <p className='font-semibold'>{trans.amount}</p>
                     </div>
+                    <span className="material-symbols-outlined py-4" onClick={handleDelete}>delete</span>
                 </div>
             </div>
         )
