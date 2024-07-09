@@ -187,7 +187,7 @@ const deleteTransaction = async (req, res) => {
   try {
     // const { id } = req.body
     // console.log('delete id: ', id)
-    console.log('delete req headers: ', req.params.id)
+    // console.log('delete req headers: ', req.params.id)
     const result = await client.query(`DELETE FROM ledger
       WHERE id = ${req.params.id}
       `).catch((error) => {
@@ -206,6 +206,33 @@ const deleteTransaction = async (req, res) => {
 
 // UPDATE
 
+const updateTransaction = async (req, res) => {
+  try {
+    console.log('update transaction fired')
+    const { amount, date, title, category } = req.body
+    let expense = true
+    let multiplier = -1
+    console.log('update amount: ', amount)
+    if(category === 6){ expense = false; multiplier = -1*multiplier; }
+    const result = await client.query(`
+      UPDATE public.ledger
+	    SET amount=${multiplier * amount}, trans_date = '${date}', "desc" = '${title}', category_id = ${category}, expense = ${expense}
+	    WHERE id = ${req.params.id};
+      `)
+    .catch((error) => {
+      console.log('Database error updating transaction: ', error);
+      res.status(400).json(error);
+      return;
+    });
+    console.log('update successful: ', result);
+    res.status(200).json(result);
+  } catch (error) {
+    console.log('Error updating transaction: ', error);
+    res.status(400).json(error);
+  }
+}
+
+
 module.exports = {
     login,
     register,
@@ -213,5 +240,6 @@ module.exports = {
     getLedger,
     getExpenses,
     newTransaction,
-    deleteTransaction
+    deleteTransaction,
+    updateTransaction
 };

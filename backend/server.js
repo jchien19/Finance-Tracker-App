@@ -3,7 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const { login, register, test, getLedger, getExpenses, 
-        newTransaction, deleteTransaction } = require('./controllers/financeControllers')
+        newTransaction, deleteTransaction, updateTransaction } = require('./controllers/financeControllers')
 const cors = require('cors');
 const client = require('./pgClient')
 
@@ -60,6 +60,8 @@ app.post('/newTransaction', newTransaction)
 app.delete('/deleteTransaction/:id', deleteTransaction)
 
 app.get('/getTest', test)
+
+app.patch('/updateTransaction/:id', updateTransaction)
 
 app.get('/sessionUser', (req, res) => {
   // if (req.session.userId) {

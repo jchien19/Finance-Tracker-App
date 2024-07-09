@@ -4,6 +4,7 @@ import axios from 'axios';
 import TransactionDisplay from './TransactionDisplay';
 import GraphDisplay from './GraphDisplay';
 import TransactionForm from './TransactionForm';
+import TotalSpent from './TotalSpent';
 
 const HomePage = () => {
 
@@ -47,6 +48,12 @@ const HomePage = () => {
 
     return (
         <div>
+            <div className='bg-white space-x-4 ml-8 mr-8 mt-4 shadow-lg rounded-lg'>
+                <div className='p-4'>
+                    <h3 className='text-1xl font-bold'>Total</h3>
+                    {expenses && <TotalSpent charges={expenses}/>}
+                </div>
+            </div>
             <div className="flex space-x-4 p-8">
                 <div className="bg-white p-8 shadow-lg rounded-lg w-3/5 h-2/3">
                     <div className='flex relative absolute p-3'>
@@ -59,17 +66,10 @@ const HomePage = () => {
                             <button onClick={handleClick}>refresh</button>
                         </div>
                     </div>
-
-    {/* Start of form */}
-    {/* <div className="relative"> */}
-      {showPopup && <TransactionForm ToggleFunction = {togglePopup}/>}
-    {/* </div> */}
-    {/* end of form */}
-
-                    {transactions && transactions.map(transaction => (
-                        <TransactionDisplay trans={transaction}/>
-                    ))}
-                    
+            {showPopup && <TransactionForm ToggleFunction = {togglePopup}/>}
+                {transactions && transactions.map(transaction => (
+                    <TransactionDisplay trans={transaction}/>
+            ))}
                 </div>
                 <div className="bg-white p-8 shadow-lg rounded-lg w-2/5 h-2/3">
                     <div className='flex relative absolute p-2'>
