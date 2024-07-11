@@ -10,6 +10,7 @@ let data = [
     { name: 'Transportation', expense: 0 },
     // { name: 'Savings', expense: 0}
   ];
+
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FFBCF4'];
 
 const RadarChartDisplay = () => (
@@ -64,7 +65,7 @@ const updateData = (expenses) => {
             data[4].expense = Number(cur.total_amount_spent)
         }
     }
-    console.log('data after: ', data)
+    // console.log('data after: ', data)
 }
 
 const ChartSwitcher = ( expenses ) => {

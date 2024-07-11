@@ -13,13 +13,22 @@ const createJWT = (id) => {
 
 const getLedger = async (req, res) => {
   try {
+    // const { start, end } = req.body
+    // console.log('get ledger req start/end: ', req.query);
     const result = await client.query(`
-          SELECT ledger.id, ledger.amount, ledger.trans_date, ledger.expense, category.category, ledger.desc
-          FROM ledger
-          JOIN category
-          ON ledger.category_id = category.id 
-          ORDER BY trans_date DESC;
-    `)
+      SELECT 
+        ledger.id, 
+        ledger.amount, 
+        SUBSTRING( cast (ledger.trans_date as TEXT) FROM 0 FOR 11) as trans_date, 
+        ledger.expense, 
+        category.category, 
+        ledger.desc
+      FROM ledger
+      JOIN category
+      ON ledger.category_id = category.id 
+      AND ledger.trans_date >= '${req.query.start}' AND ledger.trans_date <'${req.query.end}'
+      ORDER BY trans_date DESC;
+`)
     // AND ledger.account_id = 'd1c1e475-52bb-4699-9f59-30cfcf8e953e' // should go before ORDER BY
     // console.log(result.rows)
     res.status(200).json(result.rows)

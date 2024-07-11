@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
-import { useAuthContext } from "../hooks/useAuthContext"
+// import { useAuthContext } from "../hooks/useAuthContext"
 import axios from 'axios';
 import TransactionDisplay from './TransactionDisplay';
 import GraphDisplay from './GraphDisplay';
 import TransactionForm from './TransactionForm';
 import TotalSpent from './TotalSpent';
+import ExpenseChart from './ExpenseChart';
+import { useDateContext } from '../hooks/useDateContext';
 
 const HomePage = () => {
 
-    const { usern } = useAuthContext();
+    const { start, end } = useDateContext();
+
+    // const { usern } = useAuthContext();
     const[transactions, setTransactions] = useState('');
     const[expenses, setExpenses] = useState('');
     const [showPopup, setShowPopup] = useState(false);
@@ -20,7 +24,8 @@ const HomePage = () => {
     const handleClick = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.get('http://localhost:4000/getLedger');
+            console.log('start end: ', start, end)
+            const response = await axios.get('http://localhost:4000/getLedger', {params:{start, end}});
             console.log(response.data)
             setTransactions(response.data)
         } catch (error){
@@ -35,7 +40,7 @@ const HomePage = () => {
             const response = await axios.get('http://localhost:4000/getExpenses');
             console.log(response.data)
             for(let i = 0; i < response.data.length; i ++){
-                if(response.data[i].category_id != 6){
+                if(response.data[i].category_id !== 6){
                     response.data[i].total_amount_spent = (Number(response.data[i].total_amount_spent) * -1).toString()
                 }
             }
@@ -52,6 +57,11 @@ const HomePage = () => {
                 <div className='p-4'>
                     <h3 className='text-1xl font-bold'>Total</h3>
                     {expenses && <TotalSpent charges={expenses}/>}
+                    {/* {transactions && <div className='flex'>
+                        <p>Start : {start}</p>
+                        <p>End : {end}</p>
+                        </div>} */}
+                    {(transactions && <ExpenseChart importedData={transactions}/>) || <ExpenseChart importedData={[]} />}
                 </div>
             </div>
             <div className="flex space-x-4 p-8">
@@ -67,9 +77,7 @@ const HomePage = () => {
                         </div>
                     </div>
             {showPopup && <TransactionForm ToggleFunction = {togglePopup}/>}
-                {transactions && transactions.map(transaction => (
-                    <TransactionDisplay trans={transaction}/>
-            ))}
+            {transactions && transactions.map(transaction => ( <TransactionDisplay trans={transaction}/> ))}
                 </div>
                 <div className="bg-white p-8 shadow-lg rounded-lg w-2/5 h-2/3">
                     <div className='flex relative absolute p-2'>
